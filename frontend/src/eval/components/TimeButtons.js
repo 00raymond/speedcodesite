@@ -14,6 +14,10 @@ const TimeButtons = ({ lang, setLang }) => {
 
     const setNewLang = (newLang) => {
 
+        if (newLang === 'C#') {
+            newLang = 'csharp';
+        }
+
         setLang(newLang.toLowerCase());
         console.log("newLang: ", newLang.toLowerCase())
         console.log("lang", lang)
@@ -24,7 +28,7 @@ const TimeButtons = ({ lang, setLang }) => {
         {langs.map((newLang, index) => {
             return <button
                 className={`
-                ${lang === null || lang === newLang.toLowerCase() ? 'bg-none text-white' : 'hover:text-gray-300 text-gray-500'} 
+                ${lang === null || lang === newLang.toLowerCase() || (lang === 'csharp' && newLang === 'C#') ? 'bg-none text-white' : 'hover:text-gray-300 text-gray-500'} 
                 hover:bg-indigo-500 font-medium py-2 px-4 rounded transition-colors duration-150`}
                 key={index} onClick={() => setNewLang(newLang)}>{newLang}</button>
         })}

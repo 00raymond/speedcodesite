@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import AceEditor from "react-ace";
 
 // Import necessary styles and modes for AceEditor
@@ -15,12 +15,26 @@ import "ace-builds/src-noconflict/ext-searchbox";
 const TextInput = ({ testActive, setWords, setCharacters, lang }) => {
     const isVisible = lang !== null;
 
-    const langMode = lang === "java" ? "java" : lang === "python" ? "python" : lang === "javascript" ? "javascript" : lang === "c#" ? "csharp" : "text";
+    const editorRef = useRef(null);
+
+    const defaultTexts = {
+        python: "def main():\n    # Write Python code here\n",
+        java: "public static void main(String[] args) {\n    // Write Java code here\n}",
+        csharp: "public class Program {\n    public static void Main(string[] args) {\n        // Write C# code here\n    }\n}"
+    };
 
     function onChange(newValue) {
         console.log("change", newValue);
         setWords(newValue)
     }
+
+    useEffect(() => {
+        // Set initial value when component mounts
+        if (editorRef.current) {
+            const defaultText = defaultTexts[lang] || "# Write your code here\n";
+            editorRef.current.editor.setValue(defaultText, -1); // -1 sets the cursor at the end of the set value
+        }
+    }, [lang]);
 
     return (
         <div className={`${isVisible ? 'w-[800px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200`}>
@@ -28,7 +42,8 @@ const TextInput = ({ testActive, setWords, setCharacters, lang }) => {
             <div className={""}>
                 <div className={""}>
                     <AceEditor
-                        mode={langMode}
+                        ref={editorRef}
+                        mode={lang}
                         theme="monokai"
                         onChange={onChange}
                         name="codebox"
