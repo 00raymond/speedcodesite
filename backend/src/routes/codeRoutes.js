@@ -21,7 +21,12 @@ if __name__ == "__main__":
         res.status(200).send({ success: true, op })
 
     } catch (e) {
-        res.status(400).send({ success: false, message: 'Failed to execute Python code via Docker', error: e.toString() });
+
+        res.status(400).send({
+            success: false,
+            error: e.toString(),
+        });
+
     }
 })
 

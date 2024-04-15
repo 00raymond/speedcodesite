@@ -1,7 +1,6 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import AceEditor from "react-ace";
 
-// Import necessary styles and modes for AceEditor
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-javascript";
@@ -11,11 +10,14 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-monokai"
 import "ace-builds/src-noconflict/ext-searchbox";
+import OutputArea from "./OutputArea";
 
 const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
 
     const isVisible = lang !== null;
     const editorRef = useRef(null);
+    const [runButtonText, setRunButtonText] = ["Run Code"];
+    const [errorState, setErrorState] = useState(false);
 
     const defaultTexts = {
         python: "def main():\n    # Write Python code here\n",
@@ -47,14 +49,22 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
             });
 
             const data = await response.json();
-            setOutput(data.op);
+
+            if (data.success) {
+                setOutput(data.op);
+                setErrorState(false)
+            } else {
+                setOutput(data.error);
+                setErrorState(true)
+            }
+
         } catch (error) {
             console.error('Error sending axios request:', error);
         }
     }
 
     return (
-        <div className={`${isVisible ? 'w-[800px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200`}>
+        <div className={`${isVisible ? 'w-[800px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200 space-y-3`}>
             <p>prompt: </p>
             <div className={""}>
                 <div className={""}>
@@ -71,11 +81,10 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
                         placeholder={"Write your code here!"}
                     />
                 </div>
-                <p>output</p>
             </div>
-            <div>
-                <button onClick={fetchData}>Run Code</button>
-                <p>{output}</p>
+            <div className={"space-y-3"}>
+                <button onClick={fetchData} className={"p-2 transition-all duration-200 rounded-lg font-semibold hover:bg-indigo-600 bg-indigo-500"}>{runButtonText}</button>
+                <OutputArea output={output} errorState={errorState} />
             </div>
         </div>
     );
