@@ -2,8 +2,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// Path to the scripts directory
-const scriptsDir = path.join(__dirname, 'compile', 'scripts');
+const scriptsDir = path.join(__dirname, '..', '..', 'src', 'compile', 'scripts');
 
 // Function to run Docker containers for different languages
 exports.runDockerContainer = (language, code) => {
