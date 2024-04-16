@@ -22,7 +22,6 @@ const Assessment = () => {
                 <div className={`${lang !== null ? 'w-[1000px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200`}>
                     <div className={"flex items-center justify-center space-x-3 transition-all duration-200"}>
                         <TextInput setOutput={setOutput} setCode={setCode} output={output} code={code} testActive={testActive} lang={lang} />
-                        <button onClick={debug}>Submit</button>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,9 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-monokai"
 import "ace-builds/src-noconflict/ext-searchbox";
 import OutputArea from "./OutputArea";
+import HelpButton from "./HelpButton";
+import SettingsButton from "./SettingsButton";
+import HelpModal from "./HelpModal";
 
 const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
 
@@ -18,6 +21,7 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
     const editorRef = useRef(null);
     const [runButtonText, setRunButtonText] = ["Run Code"];
     const [errorState, setErrorState] = useState(false);
+    const [opValid, setOpValid] = useState(false);
 
     const defaultTexts = {
         python: "def main():\n    # Write Python code here\n",
@@ -53,9 +57,11 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
             if (data.success) {
                 setOutput(data.op);
                 setErrorState(false)
+                setOpValid(true)
             } else {
                 setOutput(data.error);
                 setErrorState(true)
+                setOpValid(false)
             }
 
         } catch (error) {
@@ -82,9 +88,29 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
                     />
                 </div>
             </div>
-            <div className={"space-y-3"}>
-                <button onClick={fetchData} className={"p-2 transition-all duration-200 rounded-lg font-semibold hover:bg-indigo-600 bg-indigo-500"}>{runButtonText}</button>
-                <OutputArea output={output} errorState={errorState} />
+            <div className={"space-y-3 justify-center items-center"}>
+                <div className={"flex space-x-5 justify-between"}>
+                    <div>
+                        <button onClick={fetchData}
+                                className={"p-2 flex items-center transition-all duration-200 rounded-lg font-semibold hover:bg-indigo-600 bg-indigo-500"}>
+                            {runButtonText} <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                 viewBox="0 0 24 24">
+                                <path fill-rule="evenodd"
+                                      d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div className={"flex space-x-3 right-0"}>
+                        <button disabled={!opValid} className={`${opValid ? 'opacity-100 hover:bg-yellow-400' : 'opacity-40'} p-2 transition-all duration-200 rounded-lg font-semibold bg-yellow-300`}>
+                            Submit
+                        </button>
+                        <HelpButton />
+                        <SettingsButton />
+                    </div>
+                </div>
+                <OutputArea output={output} errorState={errorState}/>
             </div>
         </div>
     );
