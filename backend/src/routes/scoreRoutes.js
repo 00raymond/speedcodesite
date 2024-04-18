@@ -24,7 +24,7 @@ router.get('/new-prompt', async (req, res) => {
 
     // TODO: Add more prompts
     prompt = prompt + " +5"
-    answer = answer + 5
+    answer = answer
 
     res.status(200).send({ success: true, message: 'Prompt updated!', prompt });
 })

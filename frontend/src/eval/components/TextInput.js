@@ -173,7 +173,7 @@ const TextInput = ({ testActive, setTimer, setOutput, setCode, output, code, lan
                         {isScoreModalVisible && <ScoreModal onClose={toggleScoreModal} score={score} time={time} />}
                         <HelpButton />
                         <SettingsButton />
-                        <NewPromptButton outputRef={outputRef} lang={lang} defaultTexts={defaultTexts} editorRef={editorRef} setGeneratedPrompt={setGeneratedPrompt} setHasWrongAttempt={setHasWrongAttempt} setOutput={setOutput} setTimer={setTimer} setCode={setCode} />
+                        <NewPromptButton setIsSubmitted={setIsSubmitted} outputRef={outputRef} lang={lang} defaultTexts={defaultTexts} editorRef={editorRef} setGeneratedPrompt={setGeneratedPrompt} setHasWrongAttempt={setHasWrongAttempt} setOutput={setOutput} setTimer={setTimer} setCode={setCode} />
                     </div>
                 </div>
                 <OutputArea outputRef={outputRef} output={output} errorState={errorState}/>
