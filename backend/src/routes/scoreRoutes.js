@@ -8,10 +8,10 @@ router.post('/submit-output', async (req, res) => {
     console.log("Score: ", output)
     console.log("Type: ", typeof output)
 
-    if (output === "10") {
+    if (output === "625") {
         res.status(200).send({ success: true, message: 'Correct answer!' });
     } else {
-        res.status(400).send({ success: false, message: 'Incorrect answer!' });
+        res.status(200).send({ success: false, message: 'Incorrect answer!' });
     }
 
 })

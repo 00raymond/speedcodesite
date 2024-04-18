@@ -15,9 +15,7 @@ const Assessment = () => {
     }
 
     return (
-        <div>
-            <header>Practice Mode</header>
-            <div className={"flex items-center justify-center"}>
+            <div className={"flex items-center justify-center max-h-screen overflow-hidden"}>
                 <TimeButtons lang={lang} setLang={setLang} />
                 <div className={`${lang !== null ? 'w-[1000px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200`}>
                     <div className={"flex items-center justify-center space-x-3 transition-all duration-200"}>
@@ -25,8 +23,6 @@ const Assessment = () => {
                     </div>
                 </div>
             </div>
-        </div>
-
     );
 }
 

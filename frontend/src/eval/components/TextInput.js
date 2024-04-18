@@ -14,6 +14,8 @@ import OutputArea from "./OutputArea";
 import HelpButton from "./HelpButton";
 import SettingsButton from "./SettingsButton";
 import HelpModal from "./HelpModal";
+import ScoreModal from "./score/ScoreModal";
+import NewPromptButton from "./NewPromptButton";
 
 const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
 
@@ -96,6 +98,7 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
                 console.log("good job")
                 setIsSubmitted(true)
                 setHasWrongAttempt(false)
+                await toggleScoreModal()
             } else {
                 console.log("bad job")
                 setHasWrongAttempt(true)
@@ -105,13 +108,14 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
         }
     }
 
-    const openScore = async () => {
-
+    const toggleScoreModal = async () => {
+        setIsScoreModalVisible(!isScoreModalVisible)
     }
 
     return (
         <div className={`${isVisible ? 'w-[800px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200 space-y-3`}>
-            <p>prompt: </p>
+            <p className={"font-semibold"}>Endless Mode</p>
+            <p className={"bg-gray-600 p-2 rounded-xl"}>Return the sum of all odd numbers from 0 to 50. </p>
             <div className={""}>
                 <div className={""}>
                     <AceEditor
@@ -162,8 +166,10 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
                         >
                             Submit
                         </button>
+                        {isScoreModalVisible && <ScoreModal onClose={toggleScoreModal} score={score} time={time} />}
                         <HelpButton />
                         <SettingsButton />
+                        <NewPromptButton />
                     </div>
                 </div>
                 <OutputArea output={output} errorState={errorState}/>
