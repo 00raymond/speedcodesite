@@ -32,8 +32,19 @@ if __name__ == "__main__":
 
 router.post('/run-java', async (req, res) => {
     const { code } = req.body;
+
     try {
-        const op = await runDockerContainer('java', code);
+        const wrappedCode = `
+        public class Main {
+    public static void main(String[] args) {
+        System.out.println(func());
+    }
+
+    ${code}
+
+}
+        `
+        const op = await runDockerContainer('java', wrappedCode);
         res.status(200).send({ success: true, op })
 
     } catch (e) {

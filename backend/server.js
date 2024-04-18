@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const codeRoutes = require('./src/routes/codeRoutes');
+const scoreRoutes = require('./src/routes/scoreRoutes');
 const cors = require('cors');
 
 const PORT = process.env.PORT || 3001;
@@ -9,6 +10,7 @@ app.use(express.json())
 app.use(cors());
 
 app.use('/api/code', codeRoutes);
+app.use('/api/code', scoreRoutes);
 
 app.get('/', (req, res) => {
     res.send('print val');

@@ -8,7 +8,10 @@ const scriptsDir = path.join(__dirname, '..', '..', 'src', 'compile', 'scripts')
 exports.runDockerContainer = (language, code) => {
     return new Promise((resolve, reject) => {
         const fileName = getFileName(language);
-        const filePath = path.join(scriptsDir, fileName);
+        let filePath = path.join(scriptsDir, fileName);
+        if (language === 'java') {
+            filePath = path.join(__dirname, '..', '..', 'src', 'compile', 'java', fileName);
+        }
 
         // Write the code to the appropriate script file
         fs.writeFileSync(filePath, code);
@@ -34,7 +37,7 @@ function getFileName(language) {
         case 'csharp':
             return 'script.cs';
         case 'java':
-            return 'script.java';
+            return 'Main.java';
         case 'python':
             return 'script.py';
         default:
@@ -44,7 +47,15 @@ function getFileName(language) {
 
 // Function to build the Docker command
 function buildDockerCommand(language, filePath) {
+
     const dockerImageName = `${language}-compiler`;  // Assuming you've built and tagged Docker images accordingly
+
+    if (language.toLowerCase() === 'java') {
+
+        const javaDir = path.join(__dirname, '..', '..', 'src', 'compile', 'java');
+        return `docker run --rm -v "${javaDir}:/app" ${dockerImageName}`;
+    }
+
     return `docker run --rm -v "${scriptsDir}:/app" ${dockerImageName} /app/${path.basename(filePath)}`;
 }
 

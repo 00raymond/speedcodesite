@@ -7,7 +7,6 @@ const TimeButtons = ({ lang, setLang }) => {
     const langs = [
         "Java",
         "Python",
-        // "Javascript",
         "C#",
     ]
 
