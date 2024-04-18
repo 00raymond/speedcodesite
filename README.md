@@ -4,4 +4,6 @@ then use npm start to run front end (by default accessed on port 3000)
 npm install in cd backend 
 but instead use node server.js (default 3001)
 
-run code endpoint: default localhost:3001*/api/code/run*
+run code endpoint: default localhost:3001 */api/code/run*
+
+for building docker images do ```docker build -t <lang>-compiler .```
