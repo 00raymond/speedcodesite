@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const TimeButtons = ({ lang, setLang }) => {
+const TimeButtons = ({ lang, setLang, setPrompt }) => {
 
     const [currentLang] = useState(null);
 
@@ -10,8 +10,20 @@ const TimeButtons = ({ lang, setLang }) => {
         "C#",
     ]
 
+    const setNewLang = async (newLang) => {
 
-    const setNewLang = (newLang) => {
+        if (lang === null) {
+            try {
+                const response = await fetch(`http://localhost:3001/api/code/new-prompt`, {
+                    method: 'GET',
+                });
+
+                const data = await response.json();
+                setPrompt(data.prompt);
+            } catch (e) {
+                console.error('Error sending submit request:', e);
+            }
+        }
 
         if (newLang === 'C#') {
             newLang = 'csharp';

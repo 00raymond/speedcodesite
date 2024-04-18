@@ -17,10 +17,13 @@ import HelpModal from "./HelpModal";
 import ScoreModal from "./score/ScoreModal";
 import NewPromptButton from "./NewPromptButton";
 
-const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
+const TextInput = ({ testActive, setTimer, setOutput, setCode, output, code, lang, generatedPrompt, setGeneratedPrompt }) => {
 
     const isVisible = lang !== null;
+
     const editorRef = useRef(null);
+    const outputRef = useRef(null);
+
     const [runButtonText, setRunButtonText] = ["Run Code"];
     const [errorState, setErrorState] = useState(false);
     const [opValid, setOpValid] = useState(false);
@@ -31,7 +34,6 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
     const [time, setTime] = useState(0);
     const [score, setScore] = useState(0);
     const [hasWrongAttempt, setHasWrongAttempt] = useState(false);
-
 
     const defaultTexts = {
         python: "def main():\n    # Write Python code here\n",
@@ -115,7 +117,9 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
     return (
         <div className={`${isVisible ? 'w-[800px] opacity-100' : 'w-0 opacity-0'} transition-all duration-200 space-y-3`}>
             <p className={"font-semibold"}>Endless Mode</p>
-            <p className={"bg-gray-600 p-2 rounded-xl"}>Return the sum of all odd numbers from 0 to 50. </p>
+            <p className={"bg-gray-600 p-2 rounded-xl"}>
+                {generatedPrompt}
+            </p>
             <div className={""}>
                 <div className={""}>
                     <AceEditor
@@ -169,10 +173,10 @@ const TextInput = ({ testActive, setOutput, setCode, output, code, lang }) => {
                         {isScoreModalVisible && <ScoreModal onClose={toggleScoreModal} score={score} time={time} />}
                         <HelpButton />
                         <SettingsButton />
-                        <NewPromptButton />
+                        <NewPromptButton outputRef={outputRef} lang={lang} defaultTexts={defaultTexts} editorRef={editorRef} setGeneratedPrompt={setGeneratedPrompt} setHasWrongAttempt={setHasWrongAttempt} setOutput={setOutput} setTimer={setTimer} setCode={setCode} />
                     </div>
                 </div>
-                <OutputArea output={output} errorState={errorState}/>
+                <OutputArea outputRef={outputRef} output={output} errorState={errorState}/>
             </div>
         </div>
     );

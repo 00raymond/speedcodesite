@@ -5,7 +5,7 @@
     }
 
     public static Object func() {
-    // Write Java code here
+    return 50;
 }
 
 }

@@ -3,10 +3,11 @@ import AceEditor from 'react-ace';
 
 import 'ace-builds/src-noconflict/theme-monokai'; // Import the mode you need
 import 'ace-builds/src-noconflict/mode-json5'; // Import a theme
-const OutputArea = ({ output, errorState }) => {
+const OutputArea = ({ output, errorState, outputRef }) => {
     return (
         <div className={`${errorState ? 'border-2 border-red-800 rounded-sm border-dotted' : ''}`}>
             <AceEditor
+                ref={outputRef}
                 mode="json5"
                 theme="monokai"
                 placeholder={'Output will be displayed here'}
